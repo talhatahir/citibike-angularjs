@@ -53,7 +53,7 @@ var citibikeApp = angular.module('citibikeApp');
     var infoWindow = new google.maps.InfoWindow();
     
     for (i = 0; i < stInf.length; i++){
-        
+          
         var calcPcntage=parseInt((stStat[i].num_bikes_available) / ((stInf[i].capacity-stStat[i].num_bikes_disabled))*100);
         if(calcPcntage < 0) calcPcntage=0;
         console.log(calcPcntage);
