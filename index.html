@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html ng-app="citibikeApp">
 <head>
-    <title>Citibike Data Visualization -using AngularJS</title>
+    <title>Citibike Data Visualization Dashboard</title>
   <!-- SCROLLS -->
   <!-- load bootstrap and fontawesome via CDN -->  
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
@@ -36,13 +36,13 @@
         <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">Citibike Data Visualization -using AngularJS</a>
+                <a class="navbar-brand" href="/">Citibike Data Visualization Dashboard</a>
             </div>
 
-            <ul class="nav navbar-nav navbar-right">
+            <!-- <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><i class="fa fa-home"></i> Dashboard</a></li>
                 <li><a href="#search"><i class="fa fa-shield"></i> Search</a></li>                
-            </ul>
+            </ul> -->
         </div>
         </nav>
     </header>
@@ -50,17 +50,25 @@
     <!-- MAIN CONTENT AND INJECTED VIEWS -->
     <div id="main">           
            <!-- home.html -->
-           <span>Map View</span>
-    <div id="map"></div>
+    <div class="container">
+        <h3>Map View</h3>
+        <div id="map">
+    
+        </div>
+    </div>       
     <!-- <div id="repeat" ng-repeat="marker in markers | orderBy : 'title'">
          <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)">
          <label id="names" >{{marker.title}} - {{marker.pcnt}}</label></a>
     </div> -->           
         <!-- angular templating -->
         <!-- this is where content will be injected -->
-        <div ng-view></div>
+        <!-- <div ng-view></div> -->
         <br/>
-        <div id="container">Placeholder for chart</div>
+        <div class="container">
+                <h3>Current usage per Bike Station</h3>
+                <div id="container">Placeholder for chart</div>
+            </div>      
+        
 
     </div>
    

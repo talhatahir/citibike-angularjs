@@ -20,7 +20,7 @@ var citibikeApp = angular.module('citibikeApp');
     $scope.markers = [];
 
     var mapOptions = {
-        zoom: 13,
+        zoom: 12,
         center: new google.maps.LatLng(40.76727216,-73.99392888),
         mapTypeId: google.maps.MapTypeId.TERRAIN
     }
@@ -54,7 +54,7 @@ var citibikeApp = angular.module('citibikeApp');
     
     for (i = 0; i < stInf.length; i++){
         
-        var calcPcntage=parseInt((stStat[i].num_bikes_available-stStat[i].num_bikes_disabled) / ((stStat[i].num_bikes_available-stStat[i].num_bikes_disabled) + (stStat[i].num_docks_available - stStat[i].num_docks_disabled))*100);
+        var calcPcntage=parseInt((stStat[i].num_bikes_available) / ((stInf[i].capacity-stStat[i].num_bikes_disabled))*100);
         if(calcPcntage < 0) calcPcntage=0;
         console.log(calcPcntage);
         pctAge.push(calcPcntage);
@@ -103,7 +103,7 @@ var citibikeApp = angular.module('citibikeApp');
 
     Highcharts.chart('container', {
         title: {
-          text: 'Current Usage'
+          text: 'Percentage of bikes available at each station'
         },
   
         xAxis: {
