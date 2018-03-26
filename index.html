@@ -1,0 +1,68 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html ng-app="citibikeApp">
+<head>
+    <title>Citibike Data Visualization -using AngularJS</title>
+  <!-- SCROLLS -->
+  <!-- load bootstrap and fontawesome via CDN -->
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+
+  <!-- SPELLS -->
+  <!-- load angular and angular route via CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwQ4o6oDVOvdwX56-ePvxjLfPPVnj7A9s"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="script.js"></script>
+  <script src="services/jsonservice.js"></script>
+  <script src="controllers/maincontroller.js"></script>
+  
+<style>   
+#map{
+    height:500px; 
+    width:80%;
+    margin:0px auto; 
+    box-shadow: 3px 3px 10px gray;
+    }
+</style>
+
+</head>
+<body ng-controller="mainController">
+
+    <!-- HEADER AND NAVBAR -->
+    <header>
+        <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Citibike Data Visualization -using AngularJS</a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><i class="fa fa-home"></i> Dashboard</a></li>
+                <li><a href="#search"><i class="fa fa-shield"></i> Search</a></li>                
+            </ul>
+        </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT AND INJECTED VIEWS -->
+    <div id="main">           
+           <!-- home.html -->
+           <span>Map View</span>
+    <div id="map"></div>
+    <!-- <div id="repeat" ng-repeat="marker in markers | orderBy : 'title'">
+         <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)">
+         <label id="names" >{{marker.title}} - {{marker.pcnt}}</label></a>
+    </div> -->           
+        <!-- angular templating -->
+        <!-- this is where content will be injected -->
+        <div ng-view></div>
+        <br/>
+        <div id="container">Placeholder for chart</div>
+
+    </div>
+   
+</body>
+</html>
