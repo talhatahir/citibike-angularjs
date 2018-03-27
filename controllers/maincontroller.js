@@ -57,7 +57,7 @@ var citibikeApp = angular.module('citibikeApp');
         var calcPcntage=parseInt((stStat[i].num_bikes_available) / ((stInf[i].capacity-stStat[i].num_bikes_disabled))*100);
         if(calcPcntage < 0) calcPcntage=0;
         console.log(calcPcntage);
-        pctAge.push(calcPcntage);
+        pctAge.push(calcPcntage); 
         stName.push(stInf[i].name);
 
         if(calcPcntage == 0){
