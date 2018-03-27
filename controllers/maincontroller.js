@@ -1,73 +1,60 @@
 var citibikeApp = angular.module('citibikeApp');
  // create the controller and inject Angular's $scope
- citibikeApp.controller('mainController', function($scope,$http,$q,jsonService) {
-    // create a message to display in our view
-    $scope.message = 'Everyone come and see how goodss I mainController!';
-    var resArr=[];
-    // var pa = [];
-    // var paPromise = $q.defer();
+ citibikeApp.controller('mainController', ['$scope','$http','$q','stationInfoService',function($scope,$http,$q,stationInfoService) {    
 
-    // $http.get('https://gbfs.citibikenyc.com/gbfs/en/station_information.json').success(function(response) {
-    //     pa= response.data.stations;
-    //     //console.log(this.resArr);
-    //     paPromise.resolve(pa);
-    //  });
-
-    //  $scope.myData = paPromise.promise;
-
-               
     
+    var resArr=[];    
     $scope.markers = [];
-
+    $scope.geonames = [];
+        
+    //init Maps for use
     var mapOptions = {
         zoom: 12,
         center: new google.maps.LatLng(40.76727216,-73.99392888),
         mapTypeId: google.maps.MapTypeId.TERRAIN
     }
 
-    var myDataPromise1 = jsonService.getData("https://gbfs.citibikenyc.com/gbfs/en/station_information.json");
-    var myDataPromise2 = jsonService.getData("https://gbfs.citibikenyc.com/gbfs/en/station_status.json");
-    
+    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);    
+
+    //prepare call for fetchin data from both jsons
+    var myDataPromise1 = stationInfoService.getData("https://gbfs.citibikenyc.com/gbfs/en/station_information.json");
+    var myDataPromise2 = stationInfoService.getData("https://gbfs.citibikenyc.com/gbfs/en/station_status.json");
+
+    //using promises to get data back when its available
     var combinedData = $q.all({
         firstResponse: myDataPromise1,
         secondResponse: myDataPromise2
       });
 
-    combinedData.then(function(response) {
-        console.log(response.firstResponse);
-        console.log(response.secondResponse);                
 
+    combinedData.then(function(response) {     
     var stInf=[];
     stInf=response.firstResponse;
 
     var stStat=[];
     stStat=response.secondResponse;
 
-    var pctAge=[];
-    var stName=[];
-      
+    var pctAge=[]; //saving computed percentage for use in charts   
+    
+    //Array for map icons
     var mapIcons=["http://maps.google.com/mapfiles/ms/micons/orange.png","http://maps.google.com/mapfiles/ms/micons/red.png","http://maps.google.com/mapfiles/ms/micons/green.png"];
 
-    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);           
-
-    var infoWindow = new google.maps.InfoWindow();
-      
+    
     for (i = 0; i < stInf.length; i++){
           
         var calcPcntage=parseInt((stStat[i].num_bikes_available) / ((stInf[i].capacity-stStat[i].num_bikes_disabled))*100);
         if(calcPcntage < 0) calcPcntage=0;
-        console.log(calcPcntage);
         pctAge.push(calcPcntage); 
-        stName.push(stInf[i].name);
+        
 
         if(calcPcntage == 0){
-
             var marker = new google.maps.Marker({
                 map: $scope.map,
                 position: new google.maps.LatLng(stInf[i].lat, stInf[i].lon),
                 title: stInf[i].name,
                 icon:mapIcons[1],
-                pcnt: calcPcntage
+                pcnt: calcPcntage,
+                searchTag:stInf[i].name
             });    
 
         }else if(calcPcntage < 50){
@@ -77,7 +64,8 @@ var citibikeApp = angular.module('citibikeApp');
                 position: new google.maps.LatLng(stInf[i].lat, stInf[i].lon),
                 title: stInf[i].name,
                 icon:mapIcons[0],
-                pcnt: calcPcntage
+                pcnt: calcPcntage,
+                searchTag:stInf[i].name
             });
 
         }else{
@@ -86,18 +74,17 @@ var citibikeApp = angular.module('citibikeApp');
                 position: new google.maps.LatLng(stInf[i].lat, stInf[i].lon),
                 title: stInf[i].name,
                 icon:mapIcons[2],
-                pcnt: calcPcntage
+                pcnt: calcPcntage,
+                searchTag:stInf[i].name
             });
 
-        }
+        }        
         
-        //marker.content = '<div class="infoWindowContent">' + resArr[i].name + '</div>';                
-        // google.maps.event.addListener(marker, 'click', function(){
-        //     infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
-        //     infoWindow.open($scope.map, marker);
-        // });
-        
+        //pushing google map markers in scope marker array
         $scope.markers.push(marker);
+
+        //pushing station geo names in scope array
+        $scope.geonames.push(stInf[i].name);
      
     }
 
@@ -107,20 +94,68 @@ var citibikeApp = angular.module('citibikeApp');
         },
   
         xAxis: {
-          categories: stName
+          categories: $scope.geonames,
+          title: {
+            text: 'Station Name'
+            }
+        },
+
+        yAxis: {
+            title: {
+                text: '%age of Bikes being used'
+            }
         },
   
         series: [{
+          name: '% of Bike in use',
           data: pctAge
         }]
       });
 
-       console.log($scope.markers);
-    });   
-   
-    // $scope.openInfoWindow = function(e, selectedMarker){
-    //     e.preventDefault();
-    //     google.maps.event.trigger(selectedMarker, 'click');
-    // }            
+       
+    }); 
+    
+    $scope.searchMarker = function(){
 
-});
+        var foundQuery;
+
+        if(($scope.searchVal=='' || $scope.searchVal==undefined) || ($scope.radius=='' || $scope.radius==undefined)){
+            return;
+        } 
+
+
+        for(var i=0;i<$scope.markers.length;i++){
+            if($scope.markers[i].title==$scope.searchVal){
+                foundQuery=$scope.markers[i];
+                break;
+            }
+        }
+
+        for(var i=0;i<$scope.markers.length;i++){
+            $scope.markers[i].setMap(null);
+        }
+
+        var radiusInm=parseFloat($scope.radius)*1000;
+       
+        var mapOptions = {
+            zoom: 18,
+            center: foundQuery.position,            
+            mapTypeId: google.maps.MapTypeId.TERRAIN
+        }
+        
+       
+        $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);   
+      
+        for(var i=0;i<$scope.markers.length;i++){  
+            var dist=google.maps.geometry.spherical.computeDistanceBetween(foundQuery.position,$scope.markers[i].position);
+            
+            if(dist<=radiusInm){
+                $scope.markers[i].setMap($scope.map);
+                console.log(dist);
+            }      
+                
+        }
+        
+    }
+
+}]);
