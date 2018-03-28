@@ -6,15 +6,13 @@
   <!-- SCROLLS -->
   <!-- load bootstrap and fontawesome via CDN -->  
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
-      
+        
   <!-- SPELLS -->
   <!-- load angular and angular route via CDN -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places&key=AIzaSyBwQ4o6oDVOvdwX56-ePvxjLfPPVnj7A9s"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  
   <script src = "https://cdn.zingchart.com/zingchart.min.js" ></script>  
   <script src = "https://cdn.zingchart.com/angular/zingchart-angularjs.js" ></script>  
   <script src="app.js"></script>
@@ -23,8 +21,7 @@
   
 <style>   
 #map{
-    height:500px; 
-    width:80%;
+    height:500px;     
     margin:0px auto;  
     box-shadow: 3px 3px 10px gray;
     }
@@ -39,45 +36,38 @@
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">Citibike Data Visualization Dashboard</a>
-            </div>
-
-            <!-- <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><i class="fa fa-home"></i> Dashboard</a></li>
-                <li><a href="#search"><i class="fa fa-shield"></i> Search</a></li>                
-            </ul> -->
+            </div>           
         </div>
         </nav>
     </header>
 
-    <!-- MAIN CONTENT AND INJECTED VIEWS -->
-    <div id="main">           
-           <!-- home.html -->
+    <!-- MAIN CONTENT  -->
+    <div id="main">   
     <div class="container">
-        <h3>Map View</h3>
-        <form><input id="searchVal" required placeholder="Search on Map" ng-model="searchVal" list="geoNames" type="text" /> &nbsp;<input type="text" id="radius" ng-model="radius" placeholder="Distance in km" required/> <button ng-click="searchMarker()" type="submit">Search</button></form>
-        <br/>
-        <div id="map">
-    
+        <div class="row">
+                <div class="col-lg-3">
+                    <h3>Map View</h3>
+                    <form><div class="form-group"><input id="searchVal" class="form-control" required placeholder="Search on Map" ng-model="searchVal" list="geoNames" type="text" /> &nbsp;<input type="text" class="form-control" id="radius" ng-model="radius" placeholder="Distance in km" required/></div> <button class="btn btn-primary" ng-click="searchMarker()" type="submit">Search</button></form>
+                </div>
+                <div class="col-lg-9">
+                <div id="map"></div>        
+                </div>
         </div>
-    </div>       
-    <!-- <div id="repeat" ng-repeat="marker in markers | orderBy : 'title'">
-         <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)">
-         <label id="names" >{{marker.title}} - {{marker.pcnt}}</label></a>
-    </div> -->           
-        <!-- angular templating -->
-        <!-- this is where content will be injected -->
-        <!-- <div ng-view></div> -->  
-        <br/>
-        <!-- <div class="container">
-                <h3>Current usage per Bike Station</h3>
-                <div id="container">Placeholder for chart</div>
-        </div>       -->
         
-        <div class="container">
-                <form><input id="searchStation" required placeholder="Search a Station" ng-model="searchStation" list="geoNames" type="text" /> &nbsp; <button ng-click="showChartData()" type="submit">Search</button></form>
-                <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
-        </div>     
-
+        
+    
+        
+        <div class="row">
+                <div class="col-lg-3">
+                    <h3>Graph View</h3>
+                    <form><div class="form-group"><input id="searchStation" class="form-control" required placeholder="Search a Station" ng-model="searchStation" list="geoNames" type="text" /> </div> <button ng-click="showChartData()" type="submit" class="btn btn-primary">Search</button></form>
+                </div>
+                <div class="col-lg-9">                
+                     <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
+                </div>
+        </div>
+    </div>     
+    </div> 
 
     </div>
 

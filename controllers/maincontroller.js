@@ -188,7 +188,7 @@ var citibikeApp = angular.module('citibikeApp');
         var radiusInm=parseFloat($scope.radius)*1000;
        
         var mapOptions = {
-            zoom: 18,
+            zoom: 15,
             center: foundQuery.position,            
             mapTypeId: google.maps.MapTypeId.TERRAIN
         }
