@@ -14,7 +14,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places&key=AIzaSyBwQ4o6oDVOvdwX56-ePvxjLfPPVnj7A9s"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
+  <script src = "https://cdn.zingchart.com/zingchart.min.js" ></script>  
+  <script src = "https://cdn.zingchart.com/angular/zingchart-angularjs.js" ></script>  
   <script src="app.js"></script>
   <script src="services/station_json_service.js"></script>
   <script src="controllers/maincontroller.js"></script>
@@ -66,11 +68,16 @@
         <!-- this is where content will be injected -->
         <!-- <div ng-view></div> -->  
         <br/>
-        <div class="container">
+        <!-- <div class="container">
                 <h3>Current usage per Bike Station</h3>
                 <div id="container">Placeholder for chart</div>
-            </div>      
+        </div>       -->
         
+        <div class="container">
+                <form><input id="searchStation" required placeholder="Search a Station" ng-model="searchStation" list="geoNames" type="text" /> &nbsp; <button ng-click="showChartData()" type="submit">Search</button></form>
+                <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
+        </div>     
+
 
     </div>
 
