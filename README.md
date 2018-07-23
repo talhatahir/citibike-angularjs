@@ -1,6 +1,6 @@
 # citibike-angularjs
 
-How to run:
+## How to run:
 Step 1
 Download the zip file.
 
